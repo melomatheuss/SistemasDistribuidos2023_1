@@ -1,3 +1,6 @@
+#rode o proto com o comando
+#python3 -m grpc_tools.protoc -I./ --python_out=. --grpc_python_out=. linux_machine.proto
+
 import grpc
 import linux_machine_pb2
 import linux_machine_pb2_grpc
