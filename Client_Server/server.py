@@ -2,22 +2,19 @@ import socket
 import threading
 from cryptography.fernet import Fernet
 
-HOST = ''
+HOST = 'localhost'
 PORT = 5000
 BACKLOG = 5
-
-
-key = Fernet.generate_key()
-
-
-cipher_suite = Fernet(key)
-
 
 conexoes = []
 
 def tratar_conexao(conexao, endereco):
+    # Gera a chave de criptografia para o cliente
+    chave_cliente = Fernet.generate_key()
+    cipher_suite = Fernet(chave_cliente)
 
-    conexao.send(key)
+    # Envia a chave criptografada para o cliente
+    conexao.send(chave_cliente)
 
     while True:
         try:
@@ -28,13 +25,15 @@ def tratar_conexao(conexao, endereco):
                 for conn in conexoes:
                     if conn != conexao:
                         conn.send(mensagem_cifrada)
+
+                print('Mensagem recebida cifrada:', mensagem_cifrada)
+                print('Mensagem recebida:', mensagem.decode())
             else:
                 conexoes.remove(conexao)
                 conexao.close()
                 print(f'{endereco} desconectado. Total de conexões: {len(conexoes)}')
                 break
         except Exception as e:
-            # Se ocorrer um erro na conexão, remove a conexão da lista e encerra o loop
             conexoes.remove(conexao)
             conexao.close()
             print(f'{endereco} desconectado. Total de conexões: {len(conexoes)}')
