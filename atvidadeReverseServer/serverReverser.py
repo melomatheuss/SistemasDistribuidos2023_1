@@ -1,47 +1,42 @@
 import socket
-
-from _thread import *
 import threading
 
 print_lock = threading.Lock()
 
 def threaded(c):
-	while True:
+    while True:
+        data = c.recv(1024)
+        if not data:
+            print('Conexão finalizada. Obrigado e até logo!')
+            break
 
-		data = c.recv(1024)
-		if not data:
-			print('Conecao finaizada vlw flw')
-			
-			print_lock.release()
-			break
+        data = data[::-1]
 
-		data = data[::-1]
+        c.send(data)
 
-		c.send(data)
-
-	c.close()
-
+    c.close()
 
 def Main():
-	host = ""
+    host = ""
+    port = 5000
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind((host, port))
+    print("Socket vinculado à porta", port)
 
-	port = 5000
-	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	s.bind((host, port))
-	print("socket vinculado a porta", port)
+    s.listen(5)
+    print("Socket está escutando")
 
-	s.listen(5)
-	print("socket esta escutando")
+    while True:
+        c, addr = s.accept()
 
-	while True:
+        print_lock.acquire()
+        print('Conectado em:', addr[0], ':', addr[1])
 
-		c, addr = s.accept()
+        thread = threading.Thread(target=threaded, args=(c,))
+        thread.start()
 
-		print_lock.acquire()
-		print('conctado em :', addr[0], ':', addr[1])
-
-		start_new_thread(threaded, (c,))
-	s.close()
+    s.close()
 
 if __name__ == '__main__':
-	Main()
+    Main()
+
