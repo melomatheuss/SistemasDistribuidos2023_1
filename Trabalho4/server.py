@@ -1,20 +1,28 @@
 #rode o proto com o comando
-#python3 -m grpc_tools.protoc -I./ --python_out=. --grpc_python_out=. linux_machine.proto
+#python3 -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. remote_control.proto
 
 import grpc
+import remote_control_pb2
+import remote_control_pb2_grpc
+from concurrent import futures
 import subprocess
-import linux_machine_pb2
-import linux_machine_pb2_grpc
+import logging
 
-class LinuxMachine(linux_machine_pb2_grpc.LinuxMachineServicer):
-    def Execute(self, request, context):
-        command = request.command.split()
-        output = subprocess.check_output(command).decode()
-        return linux_machine_pb2.CommandResponse(output=output)
+logging.basicConfig(level=logging.DEBUG, filename='cmds.log', filemode='w', format='%(process)d - [%(asctime)s] : %(levelname)s -> %(message)s')
+
+class RemoteControl(remote_control_pb2_grpc.RemoteControlServicer):
+    def ExecCmd(self, request, context):
+        result = subprocess.run(request.cmd.split(), capture_output=True)
+        resultDecoded = result.stdout.decode()
+        logging.debug(f"[{request.client}] INPUT: {request.cmd}")
+        logging.debug(f"[{request.client}] OUTPUT: {resultDecoded}")
+        return remote_control_pb2.CmdResponse(cmd=resultDecoded, error="0")
 
 def serve():
-    server = grpc.server(grpc.insecure_channel("[::]:50051"))
-    linux_machine_pb2_grpc.add_LinuxMachineServicer_to_server(LinuxMachine(), server)
+    logging.debug('Iniciando servidor...')
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+    remote_control_pb2_grpc.add_RemoteControlServicer_to_server(RemoteControl(), server)
+    server.add_insecure_port("[::]:50051")
     server.start()
     server.wait_for_termination()
 
