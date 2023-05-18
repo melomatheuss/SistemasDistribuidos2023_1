@@ -1,3 +1,11 @@
+"""
+
+MATHEUS DE SOUZA MELO
+2019007565
+SISTEMAS DISTRIBUIDOS
+
+"""
+
 import pika
 import psutil
 import time
