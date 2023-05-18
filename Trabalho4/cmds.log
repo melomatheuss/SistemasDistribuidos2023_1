@@ -1,0 +1,13 @@
+9245 - [2023-05-18 15:14:36,794] : DEBUG -> Iniciando servidor...
+9245 - [2023-05-18 15:14:45,998] : DEBUG -> [] INPUT: ls
+9245 - [2023-05-18 15:14:45,998] : DEBUG -> [] OUTPUT: client.py
+cmds.log
+__pycache__
+remote_control_pb2_grpc.py
+remote_control_pb2.py
+remote_control.proto
+server.py
+
+9245 - [2023-05-18 15:15:23,869] : DEBUG -> [] INPUT: pwd
+9245 - [2023-05-18 15:15:23,869] : DEBUG -> [] OUTPUT: /home/matts/Documentos/Curso/1Trabalhos/SistemasDis/correção_trabalhosgit/SistemasDistribuidos2023_1/Trabalho4
+
