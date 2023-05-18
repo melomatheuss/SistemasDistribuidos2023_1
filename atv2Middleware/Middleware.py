@@ -18,12 +18,11 @@ channel = connection.channel()
 channel.queue_declare(queue='cpu_queue')
 channel.queue_declare(queue='incendios_queue')
 
-# Declara a exchange
-channel.exchange_declare(exchange='temperaturas', exchange_type='direct')
+channel.exchange_declare(exchange='temperaturas', exchange_type='direct') # Declara a exchange
 
 
-# Consumidor 1 - Verificação de temperatura da CPU
-def callback(ch, method, properties, body):
+def callback(ch, method, properties, body):  # Consumidor 1 - Verificação de temperatura da CPU
+
     # Obtém as temperaturas da CPU
     temperatures = psutil.sensors_temperatures().get('cpu-thermal', [])
     
@@ -40,18 +39,18 @@ def callback(ch, method, properties, body):
         print('A temperatura da CPU não está disponível.')
 
 
-# Consumidor 2 - Simulação de alarme de incêndio
+# Consumidor 2 - SIMULA um alarme de incêndio
 def callback_alarm(ch, method, properties, body):
     print('Perigo, finge que tem um alarme de incêndio tocando!!!')
-
 
 channel.basic_consume(queue='cpu_queue', on_message_callback=callback, auto_ack=True)
 channel.basic_consume(queue='incendios_queue', on_message_callback=callback_alarm, auto_ack=True)
 
+
 # Produtor de temperaturas
 while True:
     # Obtém as temperaturas da CPU
-    temperatures = psutil.sensors_temperatures().get('cpu-thermal', [])
+    temperatures = psutil.sensors_temperatures().get('cpu-thermal', [])     # Obtém as temperaturas da CPU, não funcionou
     
     if temperatures:
         # Obtém a temperatura atual da CPU
