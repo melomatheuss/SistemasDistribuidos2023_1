@@ -1,3 +1,9 @@
+'''
+ATIVIDADE 1 MATHEUS DE SOUZA MELO
+2019007565
+ATIVIDADE REVISADA, RESOVENDO O PROBLEMA CITADO PELO PREFESSOR.
+'''
+
 import socket
 import threading
 from cryptography.fernet import Fernet
@@ -11,7 +17,6 @@ cliente.connect((HOST, PORT))
 # Recebe a chave criptografada do servidor
 chave_criptografada = cliente.recv(1024)
 print(f'Chave recebida do servidor: {chave_criptografada}')
-
 
 # Inicializa o objeto Fernet com a chave recebida do servidor
 cipher_suite = Fernet(chave_criptografada)
