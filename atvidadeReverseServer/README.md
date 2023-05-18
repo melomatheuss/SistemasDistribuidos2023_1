@@ -37,7 +37,7 @@ O cliente enviará um número configurável de requisições simultâneas para o
 
 Observe a saída no terminal do servidor, que exibirá as mensagens recebidas e processadas.
 
-![Print do monitor de sistemas](caminho/para/a/imagem.jpg)
+![Print do monitor de sistemas](atvidadeReverseServer/Captura de tela de 2023-05-18 11-26-31.png)
 
 
 -------------------------------------
