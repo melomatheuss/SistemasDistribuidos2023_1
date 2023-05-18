@@ -1,5 +1,5 @@
 Relatório - Ataque com Threads e Paralelismo
-
+---------------------------------------------
 Este repositório contém um exemplo de código em Python que demonstra um ataque utilizando threads e paralelismo. O objetivo do ataque é estressar um servidor simulado enviando múltiplas requisições simultaneamente.
 Funcionamento do Ataque
 
@@ -37,7 +37,7 @@ O cliente enviará um número configurável de requisições simultâneas para o
 
 Observe a saída no terminal do servidor, que exibirá as mensagens recebidas e processadas.
 
-![Print do monitor de sistemas](atvidadeReverseServer/Captura de tela de 2023-05-18 11-26-31.png)
+![Print do monitor de sistemas](./Captura de tela de 2023-05-18 11-26-31.png)
 
 
 -------------------------------------
