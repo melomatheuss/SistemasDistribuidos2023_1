@@ -1,30 +1,35 @@
 import socket
 import threading
 
-# Define as configurações do cliente
 HOST = 'localhost'
 PORT = 5000
 BUFFER_SIZE = 1024
 
-# Define as mensagens a serem enviadas para o servidor
-messages = ['Hello World!!!', 'DCC602 - SISTEMAS DISTRIBUIDOS ', 'Alan Turing']
+messages = ['Hello World!!!', 'DCC602 - SISTEMAS DISTRIBUIDOS', 'Alan Turing']
 
-# Função que envia uma requisição ao servidor com uma mensagem
 def send_request(message):
-    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client_socket.connect((HOST, PORT))
-    client_socket.sendall(message.encode())
-    data = client_socket.recv(BUFFER_SIZE)
-    client_socket.close()
-    print(f'Resposta do servidor para a mensagem "{message}": {data.decode()}')
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
+        try:
+            client_socket.connect((HOST, PORT))
+            client_socket.sendall(message.encode())
+            data = client_socket.recv(BUFFER_SIZE)
+            print(f'Resposta do servidor para a mensagem "{message}": {data.decode()}')
+        except Exception as e:
+            print(f'Ocorreu uma exceção durante o processamento da mensagem "{message}": {str(e)}')
 
-# Cria as threads para enviar as requisições ao servidor
+def attack():
+    while True:
+        for message in messages:
+            thread = threading.Thread(target=send_request, args=(message,))
+            thread.start()
+
+num_threads = 10
 threads = []
-for message in messages:
-    thread = threading.Thread(target=send_request, args=(message,))
+
+for _ in range(num_threads):
+    thread = threading.Thread(target=attack)
     threads.append(thread)
     thread.start()
 
-# Espera todas as threads terminarem antes de encerrar o programa
 for thread in threads:
     thread.join()
