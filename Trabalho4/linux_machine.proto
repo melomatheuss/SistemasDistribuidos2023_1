@@ -1,15 +1,18 @@
 syntax = "proto3";
 
-package linux_machine;
+package remote_control;
 
-service LinuxMachine {
-  rpc Execute (CommandRequest) returns (CommandResponse) {}
+message CmdRequest {
+  string cmd = 1;
+  string client = 2;
+  string passwd = 3;
 }
 
-message CommandRequest {
-  string command = 1;
+message CmdResponse {
+  string cmd = 1;
+  string error = 2;
 }
 
-message CommandResponse {
-  string output = 1;
+service RemoteControl {
+  rpc ExecCmd (CmdRequest) returns (CmdResponse);
 }
