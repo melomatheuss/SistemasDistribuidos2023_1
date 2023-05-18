@@ -1,3 +1,9 @@
+'''
+ATIVIDADE 1 MATHEUS DE SOUZA MELO
+2019007565
+ATIVIDADE REVISADA, RESOVENDO O PROBLEMA CITADO PELO PREFESSOR.
+'''
+
 import socket
 import threading
 from cryptography.fernet import Fernet
@@ -13,8 +19,7 @@ def tratar_conexao(conexao, endereco):
     chave_cliente = Fernet.generate_key()
     cipher_suite = Fernet(chave_cliente)
 
-    # Envia a chave criptografada para o cliente
-    conexao.send(chave_cliente)
+    conexao.send(chave_cliente) # Envia a chave criptografada para o cliente
 
     while True:
         try:
