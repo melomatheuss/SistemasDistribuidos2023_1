@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package remote_control;
+
+message CmdRequest {
+  string cmd = 1;
+  string client = 2;
+  string passwd = 3;
+}
+
+message CmdResponse {
+  string cmd = 1;
+  string error = 2;
+}
+
+service RemoteControl {
+  rpc ExecCmd (CmdRequest) returns (CmdResponse);
+}
